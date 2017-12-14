@@ -1,0 +1,27 @@
+{
+  "name": "website-snapshotter",
+  "version": "0.1.0",
+  "description": "A toolkit for visually tracking and reviewing changes to websites",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JarvusInnovations/website-snapshotter.git"
+  },
+  "keywords": [
+    "puppeteer",
+    "screenshot",
+    "snapshot"
+  ],
+  "author": "Chris Alfano <chris@jarv.us>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JarvusInnovations/website-snapshotter/issues"
+  },
+  "homepage": "https://github.com/JarvusInnovations/website-snapshotter#readme",
+  "dependencies": {
+    "puppeteer": "^0.13.0"
+  }
+}
