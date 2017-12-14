@@ -2,6 +2,10 @@
 
 A toolkit for visually tracking and reviewing changes to websites
 
+## Example snapshots repository
+
+See [example branch](https://github.com/JarvusInnovations/website-snapshotter/tree/example)
+
 ## Adding a new site
 
 - Create a directory named for the hostname of the site to capture
