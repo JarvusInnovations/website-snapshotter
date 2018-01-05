@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/JarvusInnovations/website-snapshotter#readme",
   "dependencies": {
+    "append-query": "^2.0.1",
     "puppeteer": "^0.13.0"
   }
 }

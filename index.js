@@ -1,7 +1,8 @@
 const path = require('path');
 const puppeteer = require('puppeteer');
+const appendQuery = require('append-query');
 
-exports.capture = async function ({ basePath, baseUrl, snapshots }) {
+exports.capture = async function ({ basePath, baseUrl, snapshots, baseQuery = {} }) {
     const sessionToken = (process.argv[2]||'').trim();
 
     if (!sessionToken) {
@@ -34,13 +35,13 @@ exports.capture = async function ({ basePath, baseUrl, snapshots }) {
 
     for (const key of Object.keys(snapshots)) {
         const snapshotSpec = typeof snapshots[key] == 'string' ? { url: snapshots[key] } : snapshots[pageKey];
-        const snapshotUrl = snapshotSpec.url;
+        const snapshotUrl = appendQuery(path.join(baseUrl, snapshotSpec.url), baseQuery);
         const snapshotFilename = `${key}.png`;
 
-        console.log('\tRendering %s to %s', snapshotUrl, snapshotFilename);
+        console.log('\tRendering %s: %s', snapshotFilename, snapshotUrl);
 
         try {
-            await page.goto(path.join(baseUrl, snapshotUrl), {
+            await page.goto(snapshotUrl, {
                 waitUntil: 'networkidle2'
             });
 
