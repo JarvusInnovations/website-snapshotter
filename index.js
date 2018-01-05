@@ -1,14 +1,14 @@
 const path = require('path');
 const puppeteer = require('puppeteer');
 
-exports.capture = async function (destination, host, pages) {
+exports.capture = async function ({ basePath, baseUrl, snapshots }) {
     const sessionToken = (process.argv[2]||'').trim();
 
     if (!sessionToken) {
         console.log('Warning: no session token provided');
     }
 
-    console.log('Capturing %s to %s', host, destination);
+    console.log('Capturing %s to %s', baseUrl, basePath);
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -32,24 +32,24 @@ exports.capture = async function (destination, host, pages) {
         });
     }
 
-    for (const pageKey of Object.keys(pages)) {
-        const pageSpec = typeof pages[pageKey] == 'string' ? { path: pages[pageKey] } : pages[pageKey];
-        const pagePath = pageSpec.path;
-        const pageFilename = `${pageKey}.png`;
+    for (const key of Object.keys(snapshots)) {
+        const snapshotSpec = typeof snapshots[key] == 'string' ? { url: snapshots[key] } : snapshots[pageKey];
+        const snapshotUrl = snapshotSpec.url;
+        const snapshotFilename = `${key}.png`;
 
-        console.log('\tRendering %s to %s', pagePath, pageFilename);
+        console.log('\tRendering %s to %s', snapshotUrl, snapshotFilename);
 
         try {
-            await page.goto(path.join(host, pagePath), {
+            await page.goto(path.join(baseUrl, snapshotUrl), {
                 waitUntil: 'networkidle2'
             });
 
-            if (pageSpec.waitFor) {
-                await page.waitFor(pageSpec.waitFor);
+            if (snapshotSpec.waitFor) {
+                await page.waitFor(snapshotSpec.waitFor);
             }
 
             await page.screenshot({
-                path: path.join(destination, pageFilename),
+                path: path.join(basePath, snapshotFilename),
                 fullPage: true
             });
         } catch (err) {
